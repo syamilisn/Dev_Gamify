@@ -11,11 +11,13 @@ const DATA = [
     id: "vitality",
     title: "🩷 VIT",
     expanded: false,
+    color: "#ec4899",
+    card: "#3b0a26",
     habits: [
-      { id: "workout", name: "W.O.", done: false },
-      { id: "ochores", name: "OCHO", done: false },
-      { id: "cook", name: "COOK", done: false },
-      { id: "xchores", name: "XCHO", done: false },
+      { id: "workout", name: "W.O.", points: 3, count: 0 },
+      { id: "ochores", name: "OCHO", points: 3, count: 0 },
+      { id: "cook", name: "COOK", points: 2, count: 0 },
+      { id: "xchores", name: "XCHO", points: 2, count: 0 },
     ],
   },
 
@@ -23,11 +25,13 @@ const DATA = [
     id: "experience",
     title: "💛 EXP",
     expanded: false,
+    color: "#facc15",
+    card: "#3d3205",
     habits: [
-      { id: "grownews", name: "O.N.", done: false },
-      { id: "focus", name: "F", done: false },
-      { id: "read", name: "R", done: false },
-      { id: "plan", name: "P", done: false },
+      { id: "grownews", name: "O.N.", points: 3, count: 0 },
+      { id: "focus", name: "F", points: 3, count: 0 },
+      { id: "read", name: "R", points: 2, count: 0 },
+      { id: "plan", name: "P", points: 2, count: 0 },
     ],
   },
 
@@ -35,11 +39,13 @@ const DATA = [
     id: "mana",
     title: "❤️ MANA",
     expanded: false,
+    color: "#ef4444",
+    card: "#3b0b0b",
     habits: [
-      { id: "bujo", name: "BUJO", done: false },
-      { id: "travel", name: "TOUR", done: false },
-      { id: "friend", name: "FRND", done: false },
-      { id: "abcd", name: "ABCD", done: false },
+      { id: "bujo", name: "BUJO", points: 3, count: 0 },
+      { id: "travel", name: "TOUR", points: 3, count: 0 },
+      { id: "friend", name: "FRND", points: 2, count: 0 },
+      { id: "abcd", name: "ABCD", points: 2, count: 0 },
     ],
   },
 
@@ -47,11 +53,13 @@ const DATA = [
     id: "spirit",
     title: "💚 SOUL",
     expanded: false,
+    color: "#22c55e",
+    card: "#052e16",
     habits: [
-      { id: "pray", name: "PRAY", done: false },
-      { id: "art", name: "ART", done: false },
-      { id: "nature", name: "NATURE", done: false },
-      { id: "meditation", name: "MEDITATION", done: false },
+      { id: "pray", name: "PRAY", points: 3, count: 0 },
+      { id: "art", name: "ART", points: 3, count: 0 },
+      { id: "nature", name: "NATURE", points: 2, count: 0 },
+      { id: "meditation", name: "MEDITATION", points: 2, count: 0 },
     ],
   },
 ];
@@ -69,7 +77,7 @@ export default function App() {
     );
   };
 
-  const toggleHabit = (
+  const incrementHabit = (
     categoryId: string,
     habitId: string
   ) => {
@@ -81,7 +89,10 @@ export default function App() {
           ...cat,
           habits: cat.habits.map((habit) =>
             habit.id === habitId
-              ? { ...habit, done: !habit.done }
+              ? {
+                  ...habit,
+                  count: habit.count + 1,
+                }
               : habit
           ),
         };
@@ -89,34 +100,77 @@ export default function App() {
     );
   };
 
+  const resetHabit = (
+    categoryId: string,
+    habitId: string
+  ) => {
+    setCategories((prev) =>
+      prev.map((cat) => {
+        if (cat.id !== categoryId) return cat;
+
+        return {
+          ...cat,
+          habits: cat.habits.map((habit) =>
+            habit.id === habitId
+              ? { ...habit, count: 0 }
+              : habit
+          ),
+        };
+      })
+    );
+  };
+
+  const calculateCategoryScore = (habits: any[]) => {
+    return habits.reduce(
+      (total, habit) =>
+        total + habit.points * habit.count,
+      0
+    );
+  };
+
+  const renderBoxValue = (count: number) => {
+    if (count === 0) return "";
+    if (count === 1) return "✓";
+
+    return count.toString();
+  };
+
   return (
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: "#111",
-        paddingTop: 60,
-        paddingHorizontal: 20,
+        backgroundColor: "#09090b",
       }}
+      contentContainerStyle={{
+        paddingTop: 60,
+        paddingHorizontal: 16,
+        paddingBottom: 140,
+      }}
+      showsVerticalScrollIndicator={false}
     >
       <Text
         style={{
           color: "white",
-          fontSize: 30,
+          fontSize: 20,
           fontWeight: "bold",
-          marginBottom: 30,
+          marginBottom: 24,
+          letterSpacing: 1,
         }}
       >
-        Life XP
+        Fairy Tail: Adventure Begins!
       </Text>
 
       {categories.map((category) => (
         <View
           key={category.id}
           style={{
-            backgroundColor: "#1e1e1e",
-            marginBottom: 20,
-            borderRadius: 16,
-            padding: 16,
+            backgroundColor: category.card,
+            marginBottom: 18,
+            borderRadius: 18,
+            padding: 15,
+            borderWidth: 1.5,
+            borderColor: category.color,
+            shadowColor: category.color,
           }}
         >
           <Pressable
@@ -124,41 +178,109 @@ export default function App() {
           >
             <Text
               style={{
-                color: "white",
-                fontSize: 22,
-                fontWeight: "600",
+                color: category.color,
+                fontSize: 17,
+                fontWeight: "700",
+                letterSpacing: 0.5,
               }}
             >
               {category.expanded ? "▼ " : "▶ "}
-              {category.title}
+              {category.title} (
+              {calculateCategoryScore(category.habits)} XP)
             </Text>
           </Pressable>
 
-          {category.expanded &&
-            category.habits.map((habit) => (
-              <Pressable
-                key={habit.id}
-                onPress={() =>
-                  toggleHabit(category.id, habit.id)
-                }
-                style={{
-                  marginTop: 16,
-                  paddingLeft: 10,
-                }}
-              >
-                <Text
+          {category.expanded && (
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+                marginTop: 14,
+              }}
+            >
+              {category.habits.map((habit) => (
+                <Pressable
+                  key={habit.id}
+                  onPress={() =>
+                    incrementHabit(category.id, habit.id)
+                  }
+                  onLongPress={() =>
+                    resetHabit(category.id, habit.id)
+                  }
                   style={{
-                    color: habit.done
-                      ? "#4ade80"
-                      : "white",
-                    fontSize: 18,
+                    width: "48%",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    backgroundColor: "#18181b",
+                    borderRadius: 12,
+                    paddingVertical: 10,
+                    paddingHorizontal: 8,
+                    marginBottom: 10,
+                    borderWidth: 1,
+                    borderColor: "#27272a",
                   }}
                 >
-                  {habit.done ? "✅ " : "⬜ "}
-                  {habit.name}
-                </Text>
-              </Pressable>
-            ))}
+                  {/* COUNTER BOX */}
+                  <View
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderRadius: 6,
+                      borderWidth: 1.5,
+                      borderColor:
+                        habit.count > 0
+                          ? category.color
+                          : "#52525b",
+                      backgroundColor:
+                        habit.count > 0
+                          ? category.color
+                          : "transparent",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRight: 8,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color:
+                          habit.count > 0
+                            ? "#09090b"
+                            : "white",
+                        fontSize: 12,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {renderBoxValue(habit.count)}
+                    </Text>
+                  </View>
+
+                  {/* TEXT */}
+                  <View>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 13,
+                        fontWeight: "600",
+                      }}
+                    >
+                      {habit.name}
+                    </Text>
+
+                    <Text
+                      style={{
+                        color: "#71717a",
+                        fontSize: 10,
+                        marginTop: 1,
+                      }}
+                    >
+                      +{habit.points}
+                    </Text>
+                  </View>
+                </Pressable>
+              ))}
+            </View>
+          )}
         </View>
       ))}
     </ScrollView>
