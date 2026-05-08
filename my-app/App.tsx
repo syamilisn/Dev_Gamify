@@ -11,6 +11,8 @@ const DATA = [
     id: "vitality",
     title: "🩷 VIT",
     expanded: false,
+    color: "#ec4899",
+    card: "#3b0a26",
     habits: [
       { id: "workout", name: "W.O.", points: 3, count: 0 },
       { id: "ochores", name: "OCHO", points: 3, count: 0 },
@@ -23,6 +25,8 @@ const DATA = [
     id: "experience",
     title: "💛 EXP",
     expanded: false,
+    color: "#facc15",
+    card: "#3d3205",
     habits: [
       { id: "grownews", name: "O.N.", points: 3, count: 0 },
       { id: "focus", name: "F", points: 3, count: 0 },
@@ -35,6 +39,8 @@ const DATA = [
     id: "mana",
     title: "❤️ MANA",
     expanded: false,
+    color: "#ef4444",
+    card: "#3b0b0b",
     habits: [
       { id: "bujo", name: "BUJO", points: 3, count: 0 },
       { id: "travel", name: "TOUR", points: 3, count: 0 },
@@ -47,6 +53,8 @@ const DATA = [
     id: "spirit",
     title: "💚 SOUL",
     expanded: false,
+    color: "#22c55e",
+    card: "#052e16",
     habits: [
       { id: "pray", name: "PRAY", points: 3, count: 0 },
       { id: "art", name: "ART", points: 3, count: 0 },
@@ -131,7 +139,7 @@ export default function App() {
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: "#111",
+        backgroundColor: "#09090b",
         paddingTop: 60,
         paddingHorizontal: 16,
       }}
@@ -139,9 +147,10 @@ export default function App() {
       <Text
         style={{
           color: "white",
-          fontSize: 28,
+          fontSize: 30,
           fontWeight: "bold",
           marginBottom: 24,
+          letterSpacing: 1,
         }}
       >
         Life XP
@@ -151,10 +160,13 @@ export default function App() {
         <View
           key={category.id}
           style={{
-            backgroundColor: "#1e1e1e",
-            marginBottom: 16,
-            borderRadius: 14,
-            padding: 14,
+            backgroundColor: category.card,
+            marginBottom: 18,
+            borderRadius: 18,
+            padding: 15,
+            borderWidth: 1.5,
+            borderColor: category.color,
+            shadowColor: category.color,
           }}
         >
           <Pressable
@@ -162,9 +174,10 @@ export default function App() {
           >
             <Text
               style={{
-                color: "white",
-                fontSize: 20,
-                fontWeight: "600",
+                color: category.color,
+                fontSize: 21,
+                fontWeight: "700",
+                letterSpacing: 0.5,
               }}
             >
               {category.expanded ? "▼ " : "▶ "}
@@ -195,11 +208,13 @@ export default function App() {
                     width: "48%",
                     flexDirection: "row",
                     alignItems: "center",
-                    backgroundColor: "#262626",
-                    borderRadius: 10,
+                    backgroundColor: "#18181b",
+                    borderRadius: 12,
                     paddingVertical: 10,
                     paddingHorizontal: 8,
                     marginBottom: 10,
+                    borderWidth: 1,
+                    borderColor: "#27272a",
                   }}
                 >
                   {/* COUNTER BOX */}
@@ -211,11 +226,11 @@ export default function App() {
                       borderWidth: 1.5,
                       borderColor:
                         habit.count > 0
-                          ? "#4ade80"
-                          : "#555",
+                          ? category.color
+                          : "#52525b",
                       backgroundColor:
                         habit.count > 0
-                          ? "#14532d"
+                          ? category.color
                           : "transparent",
                       alignItems: "center",
                       justifyContent: "center",
@@ -224,7 +239,10 @@ export default function App() {
                   >
                     <Text
                       style={{
-                        color: "white",
+                        color:
+                          habit.count > 0
+                            ? "#09090b"
+                            : "white",
                         fontSize: 12,
                         fontWeight: "bold",
                       }}
@@ -247,7 +265,7 @@ export default function App() {
 
                     <Text
                       style={{
-                        color: "#777",
+                        color: "#71717a",
                         fontSize: 10,
                         marginTop: 1,
                       }}
