@@ -133,15 +133,15 @@ export default function App() {
         flex: 1,
         backgroundColor: "#111",
         paddingTop: 60,
-        paddingHorizontal: 20,
+        paddingHorizontal: 16,
       }}
     >
       <Text
         style={{
           color: "white",
-          fontSize: 30,
+          fontSize: 28,
           fontWeight: "bold",
-          marginBottom: 30,
+          marginBottom: 24,
         }}
       >
         Life XP
@@ -152,9 +152,9 @@ export default function App() {
           key={category.id}
           style={{
             backgroundColor: "#1e1e1e",
-            marginBottom: 20,
-            borderRadius: 16,
-            padding: 16,
+            marginBottom: 16,
+            borderRadius: 14,
+            padding: 14,
           }}
         >
           <Pressable
@@ -163,7 +163,7 @@ export default function App() {
             <Text
               style={{
                 color: "white",
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: "600",
               }}
             >
@@ -176,7 +176,10 @@ export default function App() {
           {category.expanded && (
             <View
               style={{
-                marginTop: 18,
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+                marginTop: 14,
               }}
             >
               {category.habits.map((habit) => (
@@ -189,18 +192,23 @@ export default function App() {
                     resetHabit(category.id, habit.id)
                   }
                   style={{
+                    width: "48%",
                     flexDirection: "row",
                     alignItems: "center",
-                    marginBottom: 16,
+                    backgroundColor: "#262626",
+                    borderRadius: 10,
+                    paddingVertical: 10,
+                    paddingHorizontal: 8,
+                    marginBottom: 10,
                   }}
                 >
-                  {/* BOX */}
+                  {/* COUNTER BOX */}
                   <View
                     style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: 8,
-                      borderWidth: 2,
+                      width: 24,
+                      height: 24,
+                      borderRadius: 6,
+                      borderWidth: 1.5,
                       borderColor:
                         habit.count > 0
                           ? "#4ade80"
@@ -211,32 +219,27 @@ export default function App() {
                           : "transparent",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginRight: 14,
+                      marginRight: 8,
                     }}
                   >
                     <Text
                       style={{
                         color: "white",
+                        fontSize: 12,
                         fontWeight: "bold",
-                        fontSize: 16,
                       }}
                     >
                       {renderBoxValue(habit.count)}
                     </Text>
                   </View>
 
-                  {/* HABIT NAME */}
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
+                  {/* TEXT */}
+                  <View>
                     <Text
                       style={{
                         color: "white",
-                        fontSize: 18,
-                        fontWeight: "500",
+                        fontSize: 13,
+                        fontWeight: "600",
                       }}
                     >
                       {habit.name}
@@ -244,9 +247,9 @@ export default function App() {
 
                     <Text
                       style={{
-                        color: "#888",
-                        marginLeft: 10,
-                        fontSize: 14,
+                        color: "#777",
+                        fontSize: 10,
+                        marginTop: 1,
                       }}
                     >
                       +{habit.points}
