@@ -140,20 +140,24 @@ export default function App() {
       style={{
         flex: 1,
         backgroundColor: "#09090b",
+      }}
+      contentContainerStyle={{
         paddingTop: 60,
         paddingHorizontal: 16,
+        paddingBottom: 140,
       }}
+      showsVerticalScrollIndicator={false}
     >
       <Text
         style={{
           color: "white",
-          fontSize: 30,
+          fontSize: 20,
           fontWeight: "bold",
           marginBottom: 24,
           letterSpacing: 1,
         }}
       >
-        Life XP
+        Fairy Tail: Adventure Begins!
       </Text>
 
       {categories.map((category) => (
@@ -175,7 +179,7 @@ export default function App() {
             <Text
               style={{
                 color: category.color,
-                fontSize: 21,
+                fontSize: 17,
                 fontWeight: "700",
                 letterSpacing: 0.5,
               }}
